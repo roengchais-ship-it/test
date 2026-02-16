@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base target="_self">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zortout Dashboard | Secure Management Portal</title>
+    <meta name="description" content="Secure dashboard for managing your Zortout account, security settings, and services">
+    <meta name="keywords" content="zortout, dashboard, security, management, portal">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#1a56db",
+                        secondary: "#7e3af2",
+                        success: "#0e9f6e",
+                        warning: "#f59e0b",
+                        danger: "#f05252",
+                        dark: "#1f2a37",
+                        light: "#f9fafb",
+                        "zortout-blue": "#1a56db",
+                        "zortout-purple": "#7e3af2",
+                        "zortout-gray": "#6b7280"
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                    spacing: {
+                        '18': '4.5rem',
+                        '88': '22rem',
+                        '128': '32rem'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover {
+            transition: all 0.2s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .security-badge {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 text-gray-800">
+    <!-- Mobile Menu Button -->
+    <button id="mobileMenuButton" class="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-lg bg-white shadow-md">
+        <i class="fas fa-bars text-gray-700"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <aside class="sidebar fixed inset-y-0 left-0 z-40 w-64 bg-white shadow-lg lg:static lg:translate-x-0">
+        <!-- Logo -->
+        <div class="p-6 border-b">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-zortout-blue to-zortout-purple flex items-center justify-center">
+                    <i class="fas fa-shield-alt text-white text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-gray-900">Zortout</h1>
+                    <p class="text-xs text-gray-500">Secure Dashboard</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="p-4">
+            <div class="mb-8">
+                <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">MAIN</h3>
+                <ul class="space-y-1">
+                    <li>
+                        <a href="#" class="nav-item active">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-item">
+                            <i class="fas fa-user-shield"></i>
+                            <span>Security</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-item">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-item">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="mb-8">
+                <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">SERVICES</h3>
+                <ul class="space-y-1">
+                    <li>
+                        <a href="#" class="nav-item">
+                            <i class="fas fa-server"></i>
+                            <span>Hosting</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-item">
+                            <i class="fas fa-globe"></i>
+                            <span>Domains</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>Email</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-item">
+                            <i class="fas fa-database"></i>
+                            <span>Databases</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">SUPPORT</h3>
+                <ul class="space-y-1">
+                    <li>
+                        <a href="#" class="nav-item">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Help Center</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-item">
+                            <i class="fas fa-comments"></i>
+                            <span>Contact Support</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-item">
+                            <i class="fas fa-book"></i>
+                            <span>Documentation</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- User Profile -->
+        <div class="absolute bottom-0 left-0 right-0 p-4 border-t">
+            <div class="flex items-center space-x-3">
+                <img src="https://picsum.photos/40?random=100" alt="User profile" class="w-10 h-10 rounded-full">
+                <div class="flex-1">
+                    <p class="text-sm font-medium text-gray-900">John Doe</p>
+                    <p class="text-xs text-gray-500">Administrator</p>
+                </div>
+                <button class="p-2 hover:bg-gray-100 rounded-lg">
+                    <i class="fas fa-chevron-down text-gray-500"></i>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="lg:ml-64">
+        <!-- Top Bar -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex-1">
+                        <h2 class="text-2xl font-bold text-gray-900">Dashboard Overview</h2>
+                        <p class="text-gray-600">Welcome back! Here's what's happening with your services.</p>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4">
+                        <!-- Notifications -->
+                        <div class="relative">
+                            <button class="p-2 hover:bg-gray-100 rounded-lg relative">
+                                <i class="fas fa-bell text-gray-600"></i>
+                                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                            </button>
+                        </div>
+                        
+                        <!-- Search -->
+                        <div class="hidden md:block">
+                            <div class="relative">
+                                <input type="text" placeholder="Search..." class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Actions -->
+                        <button class="px-4 py-2 bg-zortout-blue text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            <i class="fas fa-plus mr-2"></i>
+                            New Service
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="p-6">
+            <!-- Security Status Banner -->
+            <div class="mb-8 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                            <i class="fas fa-shield-check text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900">Security Status: Excellent</h3>
+                            <p class="text-sm text-gray-600">All systems are secure. Last security scan: 2 hours ago</p>
+                        </div>
+                    </div>
+                    <button class="px-4 py-2 bg-white border border-blue-300 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors">
+                        Run Security Scan
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Active Services -->
+                <div class="bg-white rounded-xl shadow-sm border p-6 card-hover">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="p-3 rounded-lg bg-blue-100">
+                            <i class="fas fa-server text-blue-600 text-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-green-600 bg-green-50 px-2 py-1 rounded">+12%</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">24</h3>
+                    <p class="text-gray-600">Active Services</p>
+                </div>
+
+                <!-- Uptime -->
+                <div class="bg-white rounded-xl shadow-sm border p-6 card-hover">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="p-3 rounded-lg bg-green-100">
+                            <i class="fas fa-chart-line text-green-600 text-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-green-600 bg-green-50 px-2 py-1 rounded">99.9%</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">30 Days</h3>
+                    <p class="text-gray-600">Uptime</p>
+                </div>
+
+                <!-- Bandwidth -->
+                <div class="bg-white rounded-xl shadow-sm border p-6 card-hover">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="p-3 rounded-lg bg-purple-100">
+                            <i class="fas fa-network-wired text-purple-600 text-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-red-600 bg-red-50 px-2 py-1 rounded">-5%</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">2.4 TB</h3>
+                    <p class="text-gray-600">Bandwidth Used</p>
+                </div>
+
+                <!-- Security Score -->
+                <div class="bg-white rounded-xl shadow-sm border p-6 card-hover">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="p-3 rounded-lg bg-red-100">
+                            <i class="fas fa-shield-alt text-red-600 text-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-green-600 bg-green-50 px-2 py-1 rounded">A+</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">98/100</h3>
+                    <p class="text-gray-600">Security Score</p>
+                </div>
+            </div>
+
+            <!-- Two Column Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Left Column -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Recent Activity -->
+                    <div class="bg-white rounded-xl shadow-sm border">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-semibold text-gray-900">Recent Activity</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-user-plus text-blue-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-gray-900"><span class="font-medium">New user</span> was added to your team</p>
+                                        <p class="text-sm text-gray-500">2 hours ago</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-check-circle text-green-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-gray-900"><span class="font-medium">Security scan</span> completed successfully</p>
+                                        <p class="text-sm text-gray-500">4 hours ago</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-exclamation-triangle text-yellow-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-gray-900"><span class="font-medium">Backup</span> scheduled for tonight at 2:00 AM</p>
+                                        <p class="text-sm text-gray-500">Yesterday</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-cog text-purple-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-gray-900"><span class="font-medium">System update</span> applied successfully</p>
+                                        <p class="text-sm text-gray-500">2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service Status -->
+                    <div class="bg-white rounded-xl shadow-sm border">
+                        <div class="p-6 border-b">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-lg font-semibold text-gray-900">Service Status</h3>
+                                <span class="text-sm text-green-600 font-medium">All Systems Operational</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                        <span class="font-medium">Web Hosting</span>
+                                    </div>
+                                    <span class="text-sm text-gray-600">Operational</span>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                        <span class="font-medium">Email Services</span>
+                                    </div>
+                                    <span class="text-sm text-gray-600">Operational</span>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                        <span class="font-medium">Database Servers</span>
+                                    </div>
+                                    <span class="text-sm text-gray-600">Operational</span>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                        <span class="font-medium">DNS Services</span>
+                                    </div>
+                                    <span class="text-sm text-yellow-600">Maintenance</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="space-y-6">
+                    <!-- Quick Actions -->
+                    <div class="bg-white rounded-xl shadow-sm border">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-semibold text-gray-900">Quick Actions</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-3">
+                                <button class="w-full flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
+                                            <i class="fas fa-plus text-blue-600"></i>
+                                        </div>
+                                        <span>Add New Service</span>
+                                    </div>
+                                    <i class="fas fa-chevron-right text-gray-400"></i>
+                                </button>
+                                
+                                <button class="w-full flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
+                                            <i class="fas fa-download text-green-600"></i>
+                                        </div>
+                                        <span>Download Backup</span>
+                                    </div>
+                                    <i class="fas fa-chevron-right text-gray-400"></i>
+                                </button>
+                                
+                                <button class="w-full flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
+                                            <i class="fas fa-chart-bar text-purple-600"></i>
+                                        </div>
+                                        <span>View Reports</span>
+                                    </div>
+                                    <i class="fas fa-chevron-right text-gray-400"></i>
+                                </button>
+                                
+                                <button class="w-full flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-lg bg-red-100 flex items-center justify-center">
+                                            <i class="fas fa-cog text-red-600"></i>
+                                        </div>
+                                        <span>Security Settings</span>
+                                    </div>
+                                    <i class="fas fa-chevron-right text-gray-400"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Tips -->
+                    <div class="bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl shadow-sm p-6 text-white">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
+                                <i class="fas fa-lightbulb text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold">Security Tip</h3>
+                                <p class="text-sm opacity-90">Enable Two-Factor Authentication</p>
+                            </div>
+                        </div>
+                        <p class="text-sm opacity-90 mb-4">Add an extra layer of security to your account by enabling 2FA. This helps prevent unauthorized access even if your password is compromised.</p>
+                        <button class="w-full bg-white text-blue-600 font-medium py-2 rounded-lg hover:bg-gray-100 transition-colors">
+                            Enable 2FA Now
+                        </button>
+                    </div>
+
+                    <!-- System Resources -->
+                    <div class="bg-white rounded-xl shadow-sm border">
+                        <div class="p-6 border-b">
+                            <h3 class="text-lg font-semibold text-gray-900">System Resources</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm text-gray-600">CPU Usage</span>
+                                        <span class="text-sm font-medium text-gray-900">42%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-blue-600 h-2 rounded-full" style="width: 42%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm text-gray-600">Memory</span>
+                                        <span class="text-sm font-medium text-gray-900">68%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-green-600 h-2 rounded-full" style="width: 68%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm text-gray-600">Storage</span>
+                                        <span class="text-sm font-medium text-gray-900">85%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-yellow-600 h-2 rounded-full" style="width: 85%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm text-gray-600">Bandwidth</span>
+                                        <span class="text-sm font-medium text-gray-900">34%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-purple-600 h-2 rounded-full" style="width: 34%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white border-t mt-12">
+            <div class="px-6 py-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="mb-4 md:mb-0">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-zortout-blue to-zortout-purple flex items-center justify-center">
+                                <i class="fas fa-shield-alt text-white text-sm"></i>
+                            </div>
+                            <span class="font-bold text-gray-900">Zortout</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">Secure hosting and management solutions</p>
+                    </div>
+                    
+                    <div class="flex items-center space-x-6">
+                        <a href="#" class="text-sm text-gray-600 hover:text-gray-900">Privacy Policy</a>
+                        <a href="#" class="text-sm text-gray-600 hover:text-gray-900">Terms of Service</a>
+                        <a href="#" class="text-sm text-gray-600 hover:text-gray-900">Support</a>
+                        <a href="#" class="text-sm text-gray-600 hover:text-gray-900">Contact</a>
+                    </div>
+                    
+                    <div class="mt-4 md:mt-0">
+                        <p class="text-sm text-gray-600">© 2024 Zortout. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Define navigation items data
+        const navigationItems = [
+            { "id": 1, "label": "Dashboard", "icon": "fas fa-tachometer-alt", "active": true },
+            { "id": 2, "label": "Security", "icon": "fas fa-user-shield", "active": false },
+            { "id": 3, "label": "Settings", "icon": "fas fa-cog", "active": false },
+            { "id": 4, "label": "Analytics", "icon": "fas fa-chart-bar", "active": false },
+            { "id": 5, "label": "Hosting", "icon": "fas fa-server", "active": false },
+            { "id": 6, "label": "Domains", "icon": "fas fa-globe", "active": false },
+            { "id": 7, "label": "Email", "icon": "fas fa-envelope", "active": false },
+            { "id": 8, "label": "Databases", "icon": "fas fa-database", "active": false }
+        ];
+
+        // Define recent activities data
+        const recentActivities = [
+            { 
+                "id": 1, 
+                "type": "user", 
+                "icon": "fas fa-user-plus", 
+                "color": "blue", 
+                "title": "New user was added to your team", 
+                "time": "2 hours ago" 
+            },
+            { 
+                "id": 2, 
+                "type": "security", 
+                "icon": "fas fa-check-circle", 
+                "color": "green", 
+                "title": "Security scan completed successfully", 
+                "time": "4 hours ago" 
+            },
+            { 
+                "id": 3, 
+                "type": "backup", 
+                "icon": "fas fa-exclamation-triangle", 
+                "color": "yellow", 
+                "title": "Backup scheduled for tonight at 2:00 AM", 
+                "time": "Yesterday" 
+            },
+            { 
+                "id": 4, 
+                "type": "update", 
+                "icon": "fas fa-cog", 
+                "color": "purple", 
+                "title": "System update applied successfully", 
+                "time": "2 days ago" 
+            }
+        ];
+
+        // Define service status data
+        const serviceStatus = [
+            { "id": 1, "name": "Web Hosting", "status": "operational", "color": "green" },
+            { "id": 2, "name": "Email Services", "status": "operational", "color": "green" },
+            { "id": 3, "name": "Database Servers", "status": "operational", "color": "green" },
+            { "id": 4, "name": "DNS Services", "status": "maintenance", "color": "yellow" }
+        ];
+
+        // Define quick actions data
+        const quickActions = [
+            { "id": 1, "label": "Add New Service", "icon": "fas fa-plus", "color": "blue" },
+            { "id": 2, "label": "Download Backup", "icon": "fas fa-download", "color": "green" },
+            { "id": 3, "label": "View Reports", "icon": "fas fa-chart-bar", "color": "purple" },
+            { "id": 4, "label": "Security Settings", "icon": "fas fa-cog", "color": "red" }
+        ];
+
+        // Define system resources data
+        const systemResources = [
+            { "id": 1, "label": "CPU Usage", "value": 42, "color": "blue" },
+            { "id": 2, "label": "Memory", "value": 68, "color": "green" },
+            { "id": 3, "label": "Storage", "value": 85, "color": "yellow" },
+            { "id": 4, "label": "Bandwidth", "value": 34, "color": "purple" }
+        ];
+
+        // Mobile menu toggle
+        document.getElementById('mobileMenuButton').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+
+        // Navigation item click handler
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all items
+                document.querySelectorAll('.nav-item').forEach(navItem => {
+                    navItem.classList.remove('active');
+                });
+                
+                // Add active class to clicked item
+                this.classList.add('active');
+                
+                // Update page title based on clicked item
+                const pageTitle = this.querySelector('span').textContent;
+                document.querySelector('header h2').textContent = pageTitle + " Overview";
+            });
+        });
+
+        // Quick action buttons click handler
+        document.querySelectorAll('.quick-action-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const action = this.querySelector('span').textContent;
+                alert("Initiating: " + action);
+            });
+        });
+
+        // Security scan button
+        document.querySelector('button:contains("Run Security Scan")').addEventListener('click', function() {
+            this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Scanning...';
+            this.disabled = true;
+            
+            setTimeout(() => {
+                this.innerHTML = 'Security Scan Complete';
+                this.classList.remove('bg-white', 'border-blue-300', 'text-blue-600');
+                this.classList.add('bg-green-100', 'border-green-300', 'text-green-700');
+                
+                // Update security status
+                const statusBanner = document.querySelector('.security-status-banner');
+                statusBanner.querySelector('h3').textContent = "Security Status: Excellent";
+                statusBanner.querySelector('p').textContent = "All systems are secure. Last security scan: Just now";
+            }, 3000);
+        });
+
+        // Enable 2FA button
+        document.querySelector('button:contains("Enable 2FA Now")').addEventListener('click', function() {
+            alert("Two-Factor Authentication setup wizard will open in a new window.");
+        });
+
+        // Search functionality
+        const searchInput = document.querySelector('input[type="text"]');
+        if (searchInput) {
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    alert("Searching for: " + this.value);
+                    this.value = "";
+                }
+            });
+        }
+
+        // Notification bell click
+        document.querySelector('button .fa-bell').parentElement.addEventListener('click', function() {
+            alert("You have 3 new notifications");
+        });
+
+        // Initialize tooltips
+        document.querySelectorAll('[title]').forEach(element => {
+            element.addEventListener('mouseenter', function() {
+                const tooltip = document.createElement('div');
+                tooltip.className = 'fixed bg-gray-900 text-white text-sm px-2 py-1 rounded z-50';
+                tooltip.textContent = this.getAttribute('title');
+                document.body.appendChild(tooltip);
+                
+                const rect = this.getBoundingClientRect();
+                tooltip.style.left = rect.left + 'px';
+                tooltip.style.top = (rect.top - 30) + 'px';
+                
+                this._tooltip = tooltip;
+            });
+            
+            element.addEventListener('mouseleave', function() {
+                if (this._tooltip) {
+                    this._tooltip.remove();
+                }
+            });
+        });
+
+        // Update time dynamically
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+            });
+            const dateString = now.toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // Update any time elements on the page
+            const timeElements = document.querySelectorAll('.current-time');
+            timeElements.forEach(el => {
+                el.textContent = timeString;
+            });
+            
+            const dateElements = document.querySelectorAll('.current-date');
+            dateElements.forEach(el => {
+                el.textContent = dateString;
+            });
+        }
+
+        // Update time every minute
+        updateTime();
+        setInterval(updateTime, 60000);
+
+        // Simulate real-time updates for system resources
+        function updateSystemResources() {
+            systemResources.forEach(resource => {
+                // Simulate small fluctuations
+                const fluctuation = Math.random() * 5 - 2.5; // -2.5 to +2.5
+                let newValue = resource.value + fluctuation;
+                
+                // Keep within bounds
+                newValue = Math.max(0, Math.min(100, newValue));
+                
+                // Update the progress bar
+                const progressBar = document.querySelector(`[data-resource="${resource.id}"] .progress-bar`);
+                if (progressBar) {
+                    progressBar.style.width = newValue.toFixed(1) + "%";
+                }
+                
+                // Update the percentage text
+                const percentageText = document.querySelector(`[data-resource="${resource.id}"] .percentage`);
+                if (percentageText) {
+                    percentageText.textContent = newValue.toFixed(1) + "%";
+                }
+            });
+        }
+
+        // Update resources every 10 seconds
+        setInterval(updateSystemResources, 10000);
+    </script>
+</body>
+</html>
